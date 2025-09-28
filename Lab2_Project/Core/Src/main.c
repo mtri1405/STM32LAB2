@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "software_timer.h"
+#include "stm32f103c6.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,13 +95,33 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	setTimer1(100);
+	int counterLED = 100;
+	setTimerLED(counterLED);
+
+	int dur1 = 50;
+	setTimer1(dur1);
+	int stage = 0;
 	while (1) {
     /* USER CODE END WHILE */
+		if (timerLED_flag == 1){
+			setTimerLED(counterLED);
+			blinkLED();
+		}
 		if (timer1_flag == 1){
-			setTimer1(100);
-			// TODO
-			HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
+			setTimer1(dur1);
+			switch(stage){
+			case 0:
+				HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
+				display7SEG(1);
+				break;
+			case 1:
+				HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_RESET);
+				display7SEG(2);
+				break;
+			}
+			stage ^= 1;
 		}
     /* USER CODE BEGIN 3 */
 	}

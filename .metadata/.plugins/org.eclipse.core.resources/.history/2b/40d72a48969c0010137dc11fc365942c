@@ -1,0 +1,19 @@
+/*
+ * stm32f103c6.c
+ *
+ *  Created on: Sep 28, 2025
+ *      Author: MinhTri
+ */
+#include "stm32f103c6.h"
+#include "software_timer.h"
+
+void blinkLED() {
+	HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+}
+
+void blinkLED_TIM(int duration) {
+	if (timerLED_flag == 1) {
+		setTimerLED(duration);
+		blinkLED();
+	}
+}

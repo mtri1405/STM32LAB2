@@ -8,8 +8,12 @@
 #ifndef INC_SOFTWARE_TIMER_H_
 #define INC_SOFTWARE_TIMER_H_
 
-extern int timer1_flag;
+#include <stdbool.h>
 
+extern bool timerLED_flag;
+extern bool timer1_flag;
+
+void setTimerLED(int duration);
 void setTimer1(int duration);
 void timerRun();
 
