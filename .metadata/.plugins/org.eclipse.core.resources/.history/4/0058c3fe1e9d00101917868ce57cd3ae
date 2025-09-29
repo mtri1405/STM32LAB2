@@ -107,10 +107,10 @@ int main(void) {
 			setTimerLED(counterLED);
 			blinkLED();
 			HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-			updateTime();
 		}
 		if (timer1_flag == 1) {
 			setTimer1(dur1);
+			updateTime();
 			displayClock();
 		}
 		/* USER CODE END WHILE */

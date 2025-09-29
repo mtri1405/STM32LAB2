@@ -545,7 +545,7 @@ int main(void) {
  800042e:	4b0d      	ldr	r3, [pc, #52]	; (8000464 <main+0x70>)
  8000430:	781b      	ldrb	r3, [r3, #0]
  8000432:	2b00      	cmp	r3, #0
- 8000434:	d008      	beq.n	8000448 <main+0x54>
+ 8000434:	d00a      	beq.n	800044c <main+0x58>
 			setTimerLED(counterLED);
  8000436:	6878      	ldr	r0, [r7, #4]
  8000438:	f000 f906 	bl	8000648 <setTimerLED>
@@ -555,17 +555,17 @@ int main(void) {
  8000440:	2110      	movs	r1, #16
  8000442:	4809      	ldr	r0, [pc, #36]	; (8000468 <main+0x74>)
  8000444:	f000 fd0c 	bl	8000e60 <HAL_GPIO_TogglePin>
+			updateTime();
+ 8000448:	f7ff ffa4 	bl	8000394 <updateTime>
 		}
 		if (timer1_flag == 1) {
- 8000448:	4b08      	ldr	r3, [pc, #32]	; (800046c <main+0x78>)
- 800044a:	781b      	ldrb	r3, [r3, #0]
- 800044c:	2b00      	cmp	r3, #0
- 800044e:	d0ee      	beq.n	800042e <main+0x3a>
+ 800044c:	4b07      	ldr	r3, [pc, #28]	; (800046c <main+0x78>)
+ 800044e:	781b      	ldrb	r3, [r3, #0]
+ 8000450:	2b00      	cmp	r3, #0
+ 8000452:	d0ec      	beq.n	800042e <main+0x3a>
 			setTimer1(dur1);
- 8000450:	6838      	ldr	r0, [r7, #0]
- 8000452:	f000 f90d 	bl	8000670 <setTimer1>
-			updateTime();
- 8000456:	f7ff ff9d 	bl	8000394 <updateTime>
+ 8000454:	6838      	ldr	r0, [r7, #0]
+ 8000456:	f000 f90b 	bl	8000670 <setTimer1>
 			displayClock();
  800045a:	f7ff ff2b 	bl	80002b4 <displayClock>
 		if (timerLED_flag == 1) {
