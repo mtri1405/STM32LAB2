@@ -17,7 +17,6 @@
 #define EN3 3
 int hour = 0, minute = 0, second = 0;
 int counter = 0;
-
 const uint16_t EN[4] = { EN0_Pin, EN1_Pin, EN2_Pin, EN3_Pin };
 void EnablePin(int num) {
 	for (int i = 0; i < 4; i++) {

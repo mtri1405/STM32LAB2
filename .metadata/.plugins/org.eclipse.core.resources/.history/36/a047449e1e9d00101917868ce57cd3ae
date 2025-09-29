@@ -100,19 +100,11 @@ int main(void) {
 	int dur1 = 25;
 	setTimer1(dur1);
 
-	setClock(15, 8, 50);
+	int hour = 15, minute = 8, second = 50;
+	setClock(hour, minute, second);
 	while (1) {
-
-		if (timerLED_flag == 1) {
-			setTimerLED(counterLED);
-			blinkLED();
-			HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		}
-		if (timer1_flag == 1) {
-			setTimer1(dur1);
-			updateTime();
-			displayClock();
-		}
+		updateTime();
+		HAL_Delay(1000);
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
@@ -241,6 +233,15 @@ int counterLED = 100;
 int dur1 = 25;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	timerRun();
+	if (timerLED_flag == 1) {
+		setTimerLED(counterLED);
+		blinkLED();
+		HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
+	}
+	if (timer1_flag == 1) {
+		setTimer1(dur1);
+		displayClock();
+	}
 }
 /* USER CODE END 4 */
 
