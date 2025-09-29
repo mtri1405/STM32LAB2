@@ -15,10 +15,11 @@
 #define EN1 1
 #define EN2 2
 #define EN3 3
-
+int hour = 0, minute = 0, second = 0;
+int counter = 0;
 const uint16_t EN[4] = { EN0_Pin, EN1_Pin, EN2_Pin, EN3_Pin };
-void EnablePin(int num){
-	for (int i = 0; i < 4; i++){
+void EnablePin(int num) {
+	for (int i = 0; i < 4; i++) {
 		HAL_GPIO_WritePin(GPIOA, EN[i], GPIO_PIN_SET);
 	}
 	HAL_GPIO_WritePin(GPIOA, EN[num], GPIO_PIN_RESET);
@@ -55,6 +56,7 @@ void display7SEG(int num) {
 const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] = { 1, 2, 3, 4 };
+
 void update7SEG(int index) {
 	switch (index) {
 	case EN0:
@@ -80,5 +82,35 @@ void update7SEG(int index) {
 	default:
 		break;
 	}
+}
+void displayClock(){
+	update7SEG(counter++);
+	if (counter >= 4) counter = 0;
+}
+void setClock(int Hour, int Minute, int Second){
+	hour = Hour;
+	minute = Minute;
+	second = Second;
+}
+void updateClockBuffer(){
+	led_buffer[0] = hour / 10;
+	led_buffer[1] = hour % 10;
+	led_buffer[2] = minute / 10;
+	led_buffer[3] = minute % 10;
+}
+void updateTime() {
+	second++;
+	if (second >= 60) {
+		second = 0;
+		minute++;
+	}
+	if (minute >= 60) {
+		minute = 0;
+		hour++;
+	}
+	if (hour >= 24) {
+		hour = 0;
+	}
+	updateClockBuffer();
 }
 #endif /* INC_STM32F103C6_H_ */
