@@ -1,2 +1,4 @@
-stm32f103c6.c:10:6:blinkLED	8	static
-stm32f103c6.c:14:6:display7SEG	120	static
+stm32f103c6.c:16:6:EnablePin	24	static
+stm32f103c6.c:22:6:blinkLED	8	static
+stm32f103c6.c:26:6:display7SEG	120	static
+stm32f103c6.c:54:6:update7SEG	16	static

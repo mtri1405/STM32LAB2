@@ -100,41 +100,11 @@ int main(void)
 
 	int dur1 = 50;
 	setTimer1(dur1);
-	int stage = 0;
 	while (1) {
 		if (timerLED_flag == 1) {
 			setTimerLED(counterLED);
 			blinkLED();
 			HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		}
-		if (timer1_flag == 1) {
-			setTimer1(dur1);
-			switch (stage) {
-			case 0:
-				HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_RESET);
-				display7SEG(1);
-				break;
-			case 1:
-				HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_RESET);
-				display7SEG(2);
-				break;
-			case 2:
-				HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_RESET);
-				display7SEG(3);
-				break;
-			case 3:
-				HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_RESET);
-				display7SEG(0);
-				break;
-			}
-			stage++;
-			if (stage > 3) {
-				stage = 0;
-			}
 		}
     /* USER CODE END WHILE */
 
@@ -265,8 +235,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+int indexTime = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	timerRun();
+	update7SEG(indexTime++);
+	if (indexTime >= 4) indexTime = 0;
 }
 /* USER CODE END 4 */
 
