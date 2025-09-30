@@ -94,25 +94,34 @@ int main(void) {
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
+	// LED SETUP BEGIN
 	int counterLED = 100;
 	setTimerLED(counterLED);
+	// LED SETUP END
 
+	// TIMER SETUP BEGIN
 	int dur1 = 25;
 	setTimer1(dur1);
+	// TIMER SETUP END
 
+	// CLOCK SETUP BEGIN
 	setClock(15, 8, 50);
-	while (1) {
+	// CLOCK SETUP END
 
+	while (1) {
+		// FLAG FOR LED, DOT, UPDATE CLOCK
 		if (timerLED_flag == 1) {
 			setTimerLED(counterLED);
 			blinkLED();
 			HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
 			updateTime();
 		}
+		// FLAG FOR DISPLAY CLOCK
 		if (timer1_flag == 1) {
 			setTimer1(dur1);
 			displayClock();
 		}
+
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
@@ -240,6 +249,7 @@ static void MX_GPIO_Init(void) {
 int counterLED = 100;
 int dur1 = 25;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	// TIMER RUN
 	timerRun();
 }
 /* USER CODE END 4 */

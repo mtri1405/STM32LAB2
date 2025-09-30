@@ -15,20 +15,27 @@
 #define EN1 1
 #define EN2 2
 #define EN3 3
+
 int hour = 0, minute = 0, second = 0;
 int counter = 0;
 
+// DECLARE EN PIN OUTPUT
 const uint16_t EN[4] = { EN0_Pin, EN1_Pin, EN2_Pin, EN3_Pin };
+
+// SHORTFORM OF ENABLE EN Pin
 void EnablePin(int num) {
 	for (int i = 0; i < 4; i++) {
 		HAL_GPIO_WritePin(GPIOA, EN[i], GPIO_PIN_SET);
 	}
 	HAL_GPIO_WritePin(GPIOA, EN[num], GPIO_PIN_RESET);
 }
+
+// BLINK LED FUNCTION
 void blinkLED() {
 	HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
 }
 
+// DISPLAY 7 SEGMENT LED FUNTION
 void display7SEG(int num) {
 
 	const uint8_t seg_pattern[10][7] = { { 0, 0, 0, 0, 0, 0, 1 }, // 0
@@ -54,10 +61,13 @@ void display7SEG(int num) {
 	}
 }
 
+// DECLARE LED AND BUFFER OF LED
 const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] = { 1, 2, 3, 4 };
 
+
+// UPDATE 7 SEGMENT LED
 void update7SEG(int index) {
 	switch (index) {
 	case EN0:
@@ -84,21 +94,29 @@ void update7SEG(int index) {
 		break;
 	}
 }
+
+// DISPLAY CLOCK
 void displayClock(){
 	update7SEG(counter++);
 	if (counter >= 4) counter = 0;
 }
+
+// DECLARE TIME FOR CLOCK
 void setClock(int Hour, int Minute, int Second){
 	hour = Hour;
 	minute = Minute;
 	second = Second;
 }
+
+// UPDATE NUMBER IN CLOCK
 void updateClockBuffer(){
 	led_buffer[0] = hour / 10;
 	led_buffer[1] = hour % 10;
 	led_buffer[2] = minute / 10;
 	led_buffer[3] = minute % 10;
 }
+
+// UPDATE TIME IN CLOCK
 void updateTime() {
 	second++;
 	if (second >= 60) {
