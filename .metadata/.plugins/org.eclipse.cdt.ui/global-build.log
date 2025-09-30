@@ -1,6 +1,7 @@
-20:57:32 **** Incremental Build of configuration Debug for project Lab2_Project ****
+20:58:35 **** Incremental Build of configuration Debug for project Lab2_Project ****
 make -j20 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f103c6.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f103c6.d" -MT"Core/Src/stm32f103c6.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f103c6.o"
 arm-none-eabi-gcc -o "Lab2_Project.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\1\Dai_Hoc\VXL\Lab_Project\Lab2_Project\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab2_Project.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Lab2_Project.elf
  
@@ -8,13 +9,13 @@ arm-none-eabi-size   Lab2_Project.elf
 arm-none-eabi-objdump -h -S  Lab2_Project.elf  > "Lab2_Project.list"
 arm-none-eabi-objcopy  -O ihex  Lab2_Project.elf  "Lab2_Project.hex"
    text	   data	    bss	    dec	    hex	filename
-   8448	     20	   1708	  10176	   27c0	Lab2_Project.elf
+   8540	     20	   1708	  10268	   281c	Lab2_Project.elf
 arm-none-eabi-objcopy  -O binary  Lab2_Project.elf  "Lab2_Project.bin"
 Finished building: default.size.stdout
  
 Finished building: Lab2_Project.hex
 Finished building: Lab2_Project.bin
  
- 
 Finished building: Lab2_Project.list
+ 
  

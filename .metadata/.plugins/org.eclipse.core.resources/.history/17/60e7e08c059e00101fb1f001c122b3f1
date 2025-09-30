@@ -131,10 +131,6 @@ int main(void) {
 			if (index_led_matrix >= MAX_LED_MATRIX)
 				index_led_matrix = 0;
 		}
-		if (timer3_flag == 1) {
-			setTimer3(dur3);
-			animationMatrix();
-		}
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */

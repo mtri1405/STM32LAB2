@@ -20,17 +20,17 @@ uint8_t matrix_buffer[MAX_LED_MATRIX] = { 0 };
 const uint16_t ROW[MAX_LED_MATRIX] = { ROW0_Pin, ROW1_Pin, ROW2_Pin, ROW3_Pin,
 ROW4_Pin, ROW5_Pin, ROW6_Pin, ROW7_Pin };
 const uint16_t ENM[MAX_LED_MATRIX] = { ENM0_Pin, ENM1_Pin, ENM2_Pin, ENM3_Pin,
-ENM4_Pin, ENM5_Pin, ENM6_Pin, ENM7_Pin };
+		ENM4_Pin, ENM5_Pin, ENM6_Pin, ENM7_Pin };
 
 /*
- // 00000000
- // 00011000
- // 00100100
- // 00100100
- // 00111100
- // 00100100
- // 00100100
- // 00000000
+  // 00000000
+  // 00011000
+  // 00100100
+  // 00100100
+  // 00111100
+  // 00100100
+  // 00100100
+  // 00000000
 
  */
 void setMatrixBuffer_A() {
@@ -148,9 +148,9 @@ void updateLEDMatrix(int index) {
 
 }
 
-void animationMatrix() {
+void animationMatrix(){
 	uint8_t temp = matrix_buffer[0];
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 7; i++){
 		matrix_buffer[i] = matrix_buffer[i + 1];
 	}
 	matrix_buffer[7] = temp;
