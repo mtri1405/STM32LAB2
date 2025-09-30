@@ -1,0 +1,149 @@
+/*
+ * stm32f103c6.c
+ *
+ *  Created on: Sep 30, 2025
+ *      Author: mtri1
+ */
+
+#include "stm32f103c6.h"
+
+int hour = 0, minute = 0, second = 0;
+int counter = 0;
+int index_led = 0;
+int led_buffer[MAX_LED] = { 0, 0, 0, 0 };
+int index_led_matrix = 0;
+// EN pins
+const uint16_t EN[MAX_LED] = { EN0_Pin, EN1_Pin, EN2_Pin, EN3_Pin };
+
+// LED Matrix
+uint8_t matrix_buffer[MAX_LED_MATRIX] = { 0 };
+const uint16_t ROW[MAX_LED_MATRIX] = { ROW0_Pin, ROW1_Pin, ROW2_Pin, ROW3_Pin,
+ROW4_Pin, ROW5_Pin, ROW6_Pin, ROW7_Pin };
+const uint16_t ENM[MAX_LED_MATRIX] = { ENM0_Pin, ENM1_Pin, ENM2_Pin, ENM3_Pin,
+		ENM4_Pin, ENM5_Pin, ENM6_Pin, ENM7_Pin };
+
+/*
+  // 00111100
+  // 01000010
+  // 01000010
+  // 01111110
+  // 01000010
+  // 01000010
+  // 01000010
+  // 00000000
+
+ */
+void setMatrixBuffer_A() {
+	uint8_t pattern_A[8] = { 0xFF, 0xFF, 0x81, 0x40, 0x40, 0x81, 0xFF, 0xFF };
+	for (int i = 0; i < MAX_LED_MATRIX; i++) {
+		matrix_buffer[i] = pattern_A[i];
+	}
+}
+
+// ---- Enable one digit ----
+void EnablePin(int num) {
+	for (int i = 0; i < MAX_LED; i++) {
+		HAL_GPIO_WritePin(GPIOA, EN[i], GPIO_PIN_SET);
+	}
+	HAL_GPIO_WritePin(GPIOA, EN[num], GPIO_PIN_RESET);
+}
+
+// ---- Blink red LED ----
+void blinkLED() {
+	HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
+}
+
+// ---- Display number on 7SEG ----
+void display7SEG(int num) {
+	const uint8_t seg_pattern[10][7] = { { 0, 0, 0, 0, 0, 0, 1 }, // 0
+			{ 1, 0, 0, 1, 1, 1, 1 }, // 1
+			{ 0, 0, 1, 0, 0, 1, 0 }, // 2
+			{ 0, 0, 0, 0, 1, 1, 0 }, // 3
+			{ 1, 0, 0, 1, 1, 0, 0 }, // 4
+			{ 0, 1, 0, 0, 1, 0, 0 }, // 5
+			{ 0, 1, 0, 0, 0, 0, 0 }, // 6
+			{ 0, 0, 0, 1, 1, 1, 1 }, // 7
+			{ 0, 0, 0, 0, 0, 0, 0 }, // 8
+			{ 0, 0, 0, 0, 1, 0, 0 }  // 9
+	};
+
+	uint16_t pins[7] = { SEG0_Pin, SEG1_Pin, SEG2_Pin, SEG3_Pin, SEG4_Pin,
+	SEG5_Pin, SEG6_Pin };
+
+	if (num < 0 || num > 9)
+		num = 0;
+
+	for (int i = 0; i < 7; i++) {
+		HAL_GPIO_WritePin(GPIOB, pins[i],
+				seg_pattern[num][i] ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	}
+}
+
+// ---- Update one digit ----
+void update7SEG(int index) {
+	if (index < 0 || index >= MAX_LED)
+		return;
+	EnablePin(index);
+	display7SEG(led_buffer[index]);
+}
+
+// ---- Display clock cycle ----
+void displayClock() {
+	update7SEG(counter++);
+	if (counter >= MAX_LED)
+		counter = 0;
+}
+
+// ---- Set clock time ----
+void setClock(int Hour, int Minute, int Second) {
+	hour = Hour;
+	minute = Minute;
+	second = Second;
+	updateClockBuffer();
+}
+
+// ---- Update led buffer ----
+void updateClockBuffer() {
+	led_buffer[0] = hour / 10;
+	led_buffer[1] = hour % 10;
+	led_buffer[2] = minute / 10;
+	led_buffer[3] = minute % 10;
+}
+
+// ---- Increase time ----
+void updateTime() {
+	second++;
+	if (second >= 60) {
+		second = 0;
+		minute++;
+	}
+	if (minute >= 60) {
+		minute = 0;
+		hour++;
+	}
+	if (hour >= 24) {
+		hour = 0;
+	}
+	updateClockBuffer();
+}
+
+void updateLEDMatrix(int index) {
+	if (index < 0 || index >= MAX_LED_MATRIX)
+		return;
+
+	// Disable all Col
+	for (int i = 0; i < MAX_LED_MATRIX; i++) {
+		HAL_GPIO_WritePin(GPIOA, ENM[i], GPIO_PIN_SET);  // ULN2803 active low
+	}
+
+	// Export Data
+	uint8_t col_data = matrix_buffer[index];
+	for (int row = 0; row < 8; row++) {
+		int bit = (col_data >> row) & 0x01;
+		HAL_GPIO_WritePin(GPIOB, ROW[row], bit ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	}
+
+	// Active Matrix Col
+	HAL_GPIO_WritePin(GPIOA, ENM[index], GPIO_PIN_RESET);
+
+}

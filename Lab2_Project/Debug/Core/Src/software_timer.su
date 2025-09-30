@@ -1,3 +1,5 @@
-software_timer.c:15:6:setTimerLED	16	static
-software_timer.c:20:6:setTimer1	16	static
-software_timer.c:25:6:timerRun	4	static
+software_timer.c:19:6:setTimerLED	16	static
+software_timer.c:24:6:setTimer1	16	static
+software_timer.c:29:6:setTimer2	16	static
+software_timer.c:34:6:setTimer3	16	static
+software_timer.c:39:6:timerRun	4	static
