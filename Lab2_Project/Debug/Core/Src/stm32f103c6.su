@@ -1,4 +1,8 @@
-stm32f103c6.c:16:6:EnablePin	24	static
-stm32f103c6.c:22:6:blinkLED	8	static
-stm32f103c6.c:26:6:display7SEG	120	static
-stm32f103c6.c:54:6:update7SEG	16	static
+stm32f103c6.c:19:6:EnablePin	24	static
+stm32f103c6.c:27:6:blinkLED	8	static
+stm32f103c6.c:32:6:display7SEG	120	static
+stm32f103c6.c:58:6:update7SEG	16	static
+stm32f103c6.c:65:6:displayClock	8	static
+stm32f103c6.c:71:6:setClock	24	static
+stm32f103c6.c:79:6:updateClockBuffer	4	static
+stm32f103c6.c:87:6:updateTime	8	static

@@ -94,29 +94,27 @@ int main(void) {
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
-	// LED SETUP BEGIN
+
+	// ---- LED SETUP ----
 	int counterLED = 100;
 	setTimerLED(counterLED);
-	// LED SETUP END
 
-	// TIMER SETUP BEGIN
+	// ---- TIMER SETUP ----
 	int dur1 = 25;
 	setTimer1(dur1);
-	// TIMER SETUP END
 
-	// CLOCK SETUP BEGIN
+	// ---- Clock Setup ----
 	setClock(15, 8, 50);
-	// CLOCK SETUP END
 
 	while (1) {
-		// FLAG FOR LED, DOT, UPDATE CLOCK
+		// ---- Checking flag for LED, DOT, UPDATE TIME ----
 		if (timerLED_flag == 1) {
 			setTimerLED(counterLED);
 			blinkLED();
 			HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
 			updateTime();
 		}
-		// FLAG FOR DISPLAY CLOCK
+		// ---- Flag for Clock Display ----
 		if (timer1_flag == 1) {
 			setTimer1(dur1);
 			displayClock();
